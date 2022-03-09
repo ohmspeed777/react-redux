@@ -3,7 +3,8 @@ import { CustomProvider } from 'rsuite';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'rsuite/dist/rsuite.min.css';
 import Home from './pages/Home';
-import Two from './pages/Two';
+import Post from './pages/Post';
+import Search from './pages/Search';
 
 const App = () => {
   return (
@@ -11,7 +12,8 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="2" element={<Two />} />
+          <Route path="/post" element={<Post />} />
+          <Route path="/search" element={<Search />} />
         </Routes>
       </BrowserRouter>
     </CustomProvider>
