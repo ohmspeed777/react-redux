@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { fetchPosts } from '../redux/slices/postSlice';
 
 const Post = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
+  const navigate = useNavigate();
 
   const fetch = async () => {
     dispatch(fetchPosts());
@@ -20,7 +22,7 @@ const Post = () => {
     }
 
     if (posts.state === 'error') {
-      return 'error';
+      navigate('/');
     }
 
     return posts.value.map((el) => (
