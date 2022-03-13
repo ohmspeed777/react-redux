@@ -5,6 +5,7 @@ const initialState = {
   state: 'idle',
   value: [],
   error: {},
+  select: {},
 };
 
 export const fetchUsers = createAsyncThunk(
@@ -19,11 +20,35 @@ export const fetchUsers = createAsyncThunk(
   }
 );
 
+export const fetchUser = createAsyncThunk(
+  'users/fetchUser',
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await axios.get('http://localhost:5000/user/' + id);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue({ message: 'User errors' });
+    }
+  }
+);
+
 export const createUser = createAsyncThunk(
   'users/createUser',
   async (body, { rejectWithValue, dispatch }) => {
     try {
       const res = await axios.post('http://localhost:5000/user', body);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue({ message: 'User errors' });
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  'users/updateUser',
+  async ({ id, body }, { rejectWithValue, dispatch }) => {
+    try {
+      const res = await axios.patch('http://localhost:5000/user/' + id, body);
       return res.data;
     } catch (err) {
       return rejectWithValue({ message: 'User errors' });
@@ -57,6 +82,33 @@ export const userSlice = createSlice({
       // [1,2,3]
     },
     [createUser.rejected]: (state, action) => {
+      state.state = 'error';
+      state.error = action.payload;
+    },
+    [fetchUser.pending]: (state, action) => {
+      state.state = 'loading';
+    },
+    [fetchUser.fulfilled]: (state, action) => {
+      state.state = 'idle';
+      state.select = action.payload;
+    },
+    [fetchUser.rejected]: (state, action) => {
+      state.state = 'error';
+      state.error = action.payload;
+    },
+    [updateUser.pending]: (state, action) => {
+      state.state = 'loading';
+    },
+    [updateUser.fulfilled]: (state, action) => {
+      state.state = 'idle';
+      state.value = state.value.map((el) => {
+        if (el.id === action.payload.id) {
+          return el;
+        }
+        return el;
+      });
+    },
+    [updateUser.rejected]: (state, action) => {
       state.state = 'error';
       state.error = action.payload;
     },

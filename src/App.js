@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Post from './pages/Post';
 import Search from './pages/Search';
 import User from './pages/User';
+import UserUpdate from './pages/UserUpdate';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
           <Route path="/post" element={<Post />} />
           <Route path="/search" element={<Search />} />
           <Route path="/user" element={<User />} />
+          <Route path="/userUpdate/:id" element={<UserUpdate />} />
         </Routes>
       </BrowserRouter>
     </CustomProvider>
